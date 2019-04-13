@@ -8,24 +8,23 @@ import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import org.json.JSONObject;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-import java.io.IOException;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class EmployeeLogin extends Activity {
     EditText usernameEditText;
     EditText passwordEditText;
-    String url = "http://10.0.2.2/recruitlink/backend/login_employee.php";
-    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+    //String url = "http://10.145.217.12/recruit/backend/login_employee.php";
+//    String url = "https://dbfanatic.000webhostapp.com/backend/login_employee.php";
+    //public String url= "https://reqres.in/api/users/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,68 +34,49 @@ public class EmployeeLogin extends Activity {
         passwordEditText = findViewById(R.id.passwordTextField);
     }
 
-    public String postData(String username, String password){
-        return "{"
-                + "'username' : " + username
-                + "'password' : " + password
-                + "}";
-    }
-
-//    String post(String url, String json) throws IOException {
-//        RequestBody body = RequestBody.create(JSON, json);
-//        Request request = new Request.Builder()
-//                .url(url)
-//                .post(body)
-//                .build();
-//        try (Response response = client.newCall(request).execute()) {
-//            return response.body().string();
-//        }
-//    }
-
-    public void postRequest(String postUrl, String postBody){
-        OkHttpClient client = new OkHttpClient();
-        RequestBody body = RequestBody.create(JSON, postBody);
-
-        Request request = new Request.Builder()
-                .url(postUrl)
-                .post(body)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
+    public void loginClicked(View v) {
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+//        dbHandlerApi d= new dbHandlerApi();
+//        HandleLoginEmployee handleLoginEmployee = new HandleLoginEmployee();
+//        v.post(handleLoginEmployee);
+//        d.login_employee(handleLoginEmployee, username, password);
+//        v.post(new HandleLoginEmployee());
+        Call<JsonObject> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .loginEmployee(username, password);
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                if(e != null)
-                    e.printStackTrace();
-                call.cancel();
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response != null) {
+                    System.out.println(response.code());
+                    String res = response.body().toString();
+                    Log.d("OnResponse", res);
+                    System.out.println(res);
+                    JsonElement jelement = new JsonParser().parse(res);
+                    JsonObject  jobject = jelement.getAsJsonObject();
+                    if(jobject.get("code").getAsInt() == 1){
+                        Toast.makeText(EmployeeLogin.this, "Valid login", Toast.LENGTH_LONG).show();
+                    }else if(jobject.get("code").getAsInt() == 2){
+                        Toast.makeText(EmployeeLogin.this, "Invalid credentials", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(EmployeeLogin.this, "Server error", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(EmployeeLogin.this, "Unknown error", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.d("TAG", response.body().string());
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(EmployeeLogin.this, "No network connection", Toast.LENGTH_LONG);
+                t.printStackTrace();
             }
         });
     }
-    public void loginClicked(View v){
-        String username = usernameEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
 
-//        String loginJson = postData(username, password);
-//        try {
-//            String response = post("http://10.0.0.2/recruitlink/backend/login_employee.php", loginJson);
-//            System.out.println(response);
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
 
-        postRequest(url, postData(username, password));
-//        JSONObj
-//        JsonReader jsonReader = new JsonReader();
-//        public static String url_login_employee = "http://localhost/recruitlink/backend/login_employee.php";
-//        JSONObject json = null;
-//        json.
-//        Intent myIntent = new Intent(this, EmployeeLogin.class);
-//        startActivity(myIntent);
-    }
 
     public void registerClicked(View V){
         Intent myIntent = new Intent(this, EmployeeRegister.class);
