@@ -17,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EmployeeRegister extends Activity {
+public class EmployeeRegister extends AppCompatActivity{
     EditText nameEditText, usernameEditText, passwordEditText, emailEditText, contactEditText, dobEditText;
 
     @Override

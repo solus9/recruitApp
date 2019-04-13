@@ -19,7 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class EmployeeLogin extends Activity {
+public class EmployeeLogin extends AppCompatActivity{
     EditText usernameEditText;
     EditText passwordEditText;
     //String url = "http://10.145.217.12/recruit/backend/login_employee.php";
@@ -37,6 +37,7 @@ public class EmployeeLogin extends Activity {
     public void loginClicked(View v) {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
+
 //        dbHandlerApi d= new dbHandlerApi();
 //        HandleLoginEmployee handleLoginEmployee = new HandleLoginEmployee();
 //        v.post(handleLoginEmployee);
@@ -58,6 +59,8 @@ public class EmployeeLogin extends Activity {
                     JsonObject  jobject = jelement.getAsJsonObject();
                     if(jobject.get("code").getAsInt() == 1){
                         Toast.makeText(EmployeeLogin.this, "Valid login", Toast.LENGTH_LONG).show();
+                        Intent myIntent = new Intent(EmployeeLogin.this, EmployeeProfile.class);
+                        startActivity(myIntent);
                     }else if(jobject.get("code").getAsInt() == 2){
                         Toast.makeText(EmployeeLogin.this, "Invalid credentials", Toast.LENGTH_LONG).show();
                     }else{

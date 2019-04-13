@@ -26,4 +26,10 @@ public interface Api {
             @Field("contact") String contact,
             @Field("dob") String dob
     );
+
+    @FormUrlEncoded
+    @POST("employee_details.php")
+    Call<JsonObject> employeeDetails(
+            @Field("employee_id") int employeeId
+    );
 }
