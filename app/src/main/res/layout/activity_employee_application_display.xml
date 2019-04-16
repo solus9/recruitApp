@@ -1,11 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".EmployeeApplicationDisplay">
+
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
-    tools:context="com.example.param.recruit.EmployeeRegister">
+    android:layout_marginTop="-400dp">
+
+    <EditText
+        android:id="@+id/sopEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="SOP"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/statusEditText"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/statusEditText"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/statusEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Status"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/duration2EditText"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/skill2EditText"
+        app:layout_constraintTop_toBottomOf="@+id/statusTextView" />
+
+    <EditText
+        android:id="@+id/duration2EditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="Duration"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/duration1EditText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/skill2EditText"
+        app:layout_constraintTop_toTopOf="@+id/skill2EditText" />
+
+    <EditText
+        android:id="@+id/skill2EditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Skill Name"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/skill1EditText"
+        app:layout_constraintStart_toStartOf="@+id/skill1EditText"
+        app:layout_constraintTop_toBottomOf="@+id/skill2TextView" />
+
+    <EditText
+        android:id="@+id/duration1EditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="Duration"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/locationEditText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/skill1EditText"
+        app:layout_constraintTop_toTopOf="@+id/skill1EditText" />
+
+    <EditText
+        android:id="@+id/skill1EditText"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Skill Name"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="@+id/locationEditText"
+        app:layout_constraintTop_toBottomOf="@+id/skill1TextView" />
+
+    <EditText
+        android:id="@+id/locationEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Location"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/salaryEditText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/salaryEditText"
+        app:layout_constraintTop_toBottomOf="@+id/locationTextView" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -40,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Full Name"
+        android:text="Org Name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -51,7 +138,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="40dp"
         android:ems="10"
-        android:hint="Name"
+        android:hint="Org Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +149,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Username"
+        android:text="Job Type"
         app:layout_constraintStart_toStartOf="@+id/nameTextView"
         app:layout_constraintTop_toBottomOf="@+id/orgnameEditText" />
 
@@ -71,7 +158,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Username"
+        android:hint="Job type"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/orgnameEditText"
         app:layout_constraintStart_toStartOf="@+id/orgnameEditText"
@@ -82,7 +169,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Password"
+        android:text="Description"
         app:layout_constraintStart_toStartOf="@+id/jobtypeTextView"
         app:layout_constraintTop_toBottomOf="@+id/jobtypeEditText" />
 
@@ -91,8 +178,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
+        android:hint="Description"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="@+id/jobtypeEditText"
         app:layout_constraintStart_toStartOf="@+id/jobtypeEditText"
         app:layout_constraintTop_toBottomOf="@+id/sopTextView" />
@@ -102,7 +189,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="E-mail"
+        android:text="Start Date"
         app:layout_constraintStart_toStartOf="@+id/sopTextView"
         app:layout_constraintTop_toBottomOf="@+id/descriptionEditText" />
 
@@ -111,8 +198,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
+        android:hint="Start Date"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="@+id/descriptionEditText"
         app:layout_constraintStart_toStartOf="@+id/descriptionEditText"
         app:layout_constraintTop_toBottomOf="@+id/startDateTextView" />
@@ -122,7 +209,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Contact Number"
+        android:text="End Date"
         app:layout_constraintStart_toStartOf="@+id/startDateTextView"
         app:layout_constraintTop_toBottomOf="@+id/startdateEditText" />
 
@@ -131,8 +218,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Contact Number"
-        android:inputType="phone"
+        android:hint="End Date"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="@+id/startdateEditText"
         app:layout_constraintStart_toStartOf="@+id/startdateEditText"
         app:layout_constraintTop_toBottomOf="@+id/endDateTextView" />
@@ -142,7 +229,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Date of Birth (YYYY-MM--DD)"
+        android:text="Salary"
         app:layout_constraintStart_toStartOf="@+id/endDateTextView"
         app:layout_constraintTop_toBottomOf="@+id/enddateEditText" />
 
@@ -151,31 +238,78 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="DOB"
-        android:inputType="date"
+        android:hint="Salary"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="@+id/enddateEditText"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/enddateEditText"
         app:layout_constraintTop_toBottomOf="@+id/salaryTextView" />
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/button"
         android:fontFamily="sans-serif"
-        android:onClick="registerClicked"
+        android:onClick="cancelClicked"
         android:padding="7dp"
-        android:text="Register"
+        android:text="Cancel"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
         android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sopEditText" />
+
+    <TextView
+        android:id="@+id/locationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Location"
+        app:layout_constraintStart_toStartOf="@+id/salaryEditText"
         app:layout_constraintTop_toBottomOf="@+id/salaryEditText" />
+
+    <TextView
+        android:id="@+id/skill1TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Skill 1"
+        app:layout_constraintStart_toStartOf="@+id/locationEditText"
+        app:layout_constraintTop_toBottomOf="@+id/locationEditText" />
+
+    <TextView
+        android:id="@+id/skill2TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Skill 2"
+        app:layout_constraintStart_toStartOf="@+id/skill1TextView"
+        app:layout_constraintTop_toBottomOf="@+id/skill1EditText" />
+
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Status"
+        app:layout_constraintStart_toStartOf="@+id/skill2TextView"
+        app:layout_constraintTop_toBottomOf="@+id/skill2EditText" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="SOP"
+        app:layout_constraintStart_toStartOf="@+id/statusTextView"
+        app:layout_constraintTop_toBottomOf="@+id/statusEditText" />
 
 
 </android.support.constraint.ConstraintLayout>
+</ScrollView>

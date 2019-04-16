@@ -33,6 +33,7 @@
         android:elevation="10dp"
         android:scaleType="fitEnd"
         android:src="@drawable/posterimage"
+        android:onClick="needEmployeeClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

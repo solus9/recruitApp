@@ -16,33 +16,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EmployeeRegister extends AppCompatActivity{
-    EditText nameEditText, usernameEditText, passwordEditText, emailEditText, contactEditText, dobEditText;
+public class EmployerLogin extends AppCompatActivity {
+    EditText usernameEditText;
+    EditText passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_register);
-        nameEditText = findViewById(R.id.orgnameEditText);
-        usernameEditText = findViewById(R.id.jobtypeEditText);
-        passwordEditText = findViewById(R.id.descriptionEditText);
-        emailEditText = findViewById(R.id.startdateEditText);
-        contactEditText = findViewById(R.id.enddateEditText);
-        dobEditText = findViewById(R.id.salaryEditText);
+        setContentView(R.layout.activity_employer_login);
+        usernameEditText = findViewById(R.id.usernameTextField);
+        passwordEditText = findViewById(R.id.passwordTextField);
     }
 
-    public void registerClicked(View v){
-        String name = nameEditText.getText().toString();
+    public void loginClicked(View v) {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        String email = emailEditText.getText().toString();
-        String contact = contactEditText.getText().toString();
-        String dob = dobEditText.getText().toString();
 
         Call<JsonObject> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .registerEmployee(username, name, password, email, contact, dob);
+                .loginEmployer(username, password);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -54,24 +47,33 @@ public class EmployeeRegister extends AppCompatActivity{
                     JsonElement jelement = new JsonParser().parse(res);
                     JsonObject  jobject = jelement.getAsJsonObject();
                     if(jobject.get("code").getAsInt() == 1){
-                        Toast.makeText(EmployeeRegister.this, "Registered", Toast.LENGTH_LONG).show();
-                        Intent myIntent = new Intent(EmployeeRegister.this, EmployeeLogin.class);
+                        Toast.makeText(EmployerLogin.this, "Valid login", Toast.LENGTH_LONG).show();
+                        int employer_id = jobject.get("employer_id").getAsInt();
+                        Intent myIntent = new Intent(EmployerLogin.this, EmployerProfile.class);
+                        myIntent.putExtra("employer_id", employer_id);
                         startActivity(myIntent);
                     }else if(jobject.get("code").getAsInt() == 2){
-                        Toast.makeText(EmployeeRegister.this, "Username taken", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EmployerLogin.this, "Invalid credentials", Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(EmployeeRegister.this, "Server error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EmployerLogin.this, "Server error", Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    Toast.makeText(EmployeeRegister.this, "Unknown error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EmployerLogin.this, "Unknown error", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(EmployeeRegister.this, "No network connection", Toast.LENGTH_LONG);
+                Toast.makeText(EmployerLogin.this, "No network connection", Toast.LENGTH_LONG);
                 t.printStackTrace();
             }
         });
+    }
+
+
+
+    public void registerClicked(View V){
+        Intent myIntent = new Intent(this, EmployerRegister.class);
+        startActivity(myIntent);
     }
 }

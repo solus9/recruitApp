@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EmployeeJobDisplay">
+    tools:context=".EmployerApplicationDisplay">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="-300dp">
+        >
 
         <EditText
             android:id="@+id/sopEditText"
@@ -18,10 +18,22 @@
             android:ems="10"
             android:hint="SOP"
             android:inputType="text"
-            app:layout_constraintEnd_toEndOf="@+id/salaryEditText"
+            app:layout_constraintEnd_toEndOf="@+id/statusEditText"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/statusEditText"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <EditText
+            android:id="@+id/statusEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Status"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="@+id/duration2EditText"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/skill2EditText"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/statusTextView" />
 
         <EditText
             android:id="@+id/duration2EditText"
@@ -234,17 +246,37 @@
             app:layout_constraintTop_toBottomOf="@+id/salaryTextView" />
 
         <Button
-            android:id="@+id/applyButton"
+            android:id="@+id/rejectButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="108dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/button"
             android:fontFamily="sans-serif"
-            android:onClick="applyClicked"
+            android:onClick="rejectClicked"
             android:padding="7dp"
-            android:text="Apply"
+            android:text="Reject"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp"
+            android:typeface="monospace"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sopEditText" />
+
+        <Button
+            android:id="@+id/acceptButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/button"
+            android:fontFamily="sans-serif"
+            android:onClick="acceptClicked"
+            android:padding="7dp"
+            android:text="accept"
             android:textColor="@android:color/background_light"
             android:textSize="18sp"
             android:typeface="monospace"
@@ -281,13 +313,22 @@
             app:layout_constraintTop_toBottomOf="@+id/skill1EditText" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/statusTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="SOP'"
+            android:text="Status"
             app:layout_constraintStart_toStartOf="@+id/skill2TextView"
-            app:layout_constraintTop_toBottomOf="@+id/duration2EditText" />
+            app:layout_constraintTop_toBottomOf="@+id/skill2EditText" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="SOP"
+            app:layout_constraintStart_toStartOf="@+id/statusTextView"
+            app:layout_constraintTop_toBottomOf="@+id/statusEditText" />
 
 
     </android.support.constraint.ConstraintLayout>

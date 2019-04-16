@@ -16,19 +16,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EmployeeRegister extends AppCompatActivity{
-    EditText nameEditText, usernameEditText, passwordEditText, emailEditText, contactEditText, dobEditText;
+public class EmployerRegister extends AppCompatActivity {
+    EditText nameEditText, usernameEditText, passwordEditText, emailEditText, contactEditText, dobEditText, orgEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_register);
+        setContentView(R.layout.activity_employer_register);
         nameEditText = findViewById(R.id.orgnameEditText);
         usernameEditText = findViewById(R.id.jobtypeEditText);
         passwordEditText = findViewById(R.id.descriptionEditText);
         emailEditText = findViewById(R.id.startdateEditText);
         contactEditText = findViewById(R.id.enddateEditText);
         dobEditText = findViewById(R.id.salaryEditText);
+        orgEditText = findViewById(R.id.orgEditText);
+
+        System.out.println("employer register");
     }
 
     public void registerClicked(View v){
@@ -38,11 +41,12 @@ public class EmployeeRegister extends AppCompatActivity{
         String email = emailEditText.getText().toString();
         String contact = contactEditText.getText().toString();
         String dob = dobEditText.getText().toString();
+        String organization = orgEditText.getText().toString();
 
         Call<JsonObject> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .registerEmployee(username, name, password, email, contact, dob);
+                .registerEmployer(username, name, password, email, contact, dob, organization);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -54,24 +58,27 @@ public class EmployeeRegister extends AppCompatActivity{
                     JsonElement jelement = new JsonParser().parse(res);
                     JsonObject  jobject = jelement.getAsJsonObject();
                     if(jobject.get("code").getAsInt() == 1){
-                        Toast.makeText(EmployeeRegister.this, "Registered", Toast.LENGTH_LONG).show();
-                        Intent myIntent = new Intent(EmployeeRegister.this, EmployeeLogin.class);
+                        Toast.makeText(EmployerRegister.this, "Registered", Toast.LENGTH_LONG).show();
+                        Intent myIntent = new Intent(EmployerRegister.this, EmployerLogin.class);
                         startActivity(myIntent);
                     }else if(jobject.get("code").getAsInt() == 2){
-                        Toast.makeText(EmployeeRegister.this, "Username taken", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EmployerRegister.this, "Username taken", Toast.LENGTH_LONG).show();
+                    }else if(jobject.get("code").getAsInt() == 3){
+                        Toast.makeText(EmployerRegister.this, "Organization invalid", Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(EmployeeRegister.this, "Server error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EmployerRegister.this, "Server error", Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    Toast.makeText(EmployeeRegister.this, "Unknown error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EmployerRegister.this, "Unknown error", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(EmployeeRegister.this, "No network connection", Toast.LENGTH_LONG);
+                Toast.makeText(EmployerRegister.this, "No network connection", Toast.LENGTH_LONG);
                 t.printStackTrace();
             }
+
         });
     }
 }

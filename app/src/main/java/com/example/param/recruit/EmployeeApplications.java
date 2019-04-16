@@ -31,18 +31,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EmployeeSearch extends AppCompatActivity {
+public class EmployeeApplications extends AppCompatActivity {
     Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     ListView listView;
-    ArrayList<jobItem> jobItems;
+    ArrayList<EmployeeApplications.jobItem> jobItems;
     private int employee_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_search);
+        setContentView(R.layout.activity_employee_applications);
 
         drawerLayout = findViewById(R.id.drawerEmployeeLayout);
         navigationView = findViewById(R.id.navigationView);
@@ -56,23 +56,23 @@ public class EmployeeSearch extends AppCompatActivity {
                 switch(item.getItemId()){
                     case R.id.nav_employee_profile:
                         item.setChecked(true);
-                        Intent myIntent = new Intent(EmployeeSearch.this, EmployeeProfile.class);
+                        Intent myIntent = new Intent(EmployeeApplications.this, EmployeeProfile.class);
                         myIntent.putExtra("employee_id", employee_id);
                         startActivity(myIntent);
                         drawerLayout.closeDrawers();
                         return true;
                     case R.id.nav_employee_search:
                         item.setChecked(true);
-                        Toast.makeText(EmployeeSearch.this, "Profile ", Toast.LENGTH_LONG).show();
-                        myIntent = new Intent(EmployeeSearch.this, EmployeeSearch.class);
+                        ///Toast.makeText(EmployeeApplications.this, "Profile ", Toast.LENGTH_LONG).show();
+                        myIntent = new Intent(EmployeeApplications.this, EmployeeSearch.class);
                         myIntent.putExtra("employee_id", employee_id);
                         startActivity(myIntent);
                         drawerLayout.closeDrawers();
                         return true;
                     case R.id.nav_employee_application:
                         item.setChecked(true);
-                        Toast.makeText(EmployeeSearch.this, "Profile ", Toast.LENGTH_LONG).show();
-                        myIntent = new Intent(EmployeeSearch.this, EmployeeApplications.class);
+                        //Toast.makeText(EmployeeApplications.this, "Profile ", Toast.LENGTH_LONG).show();
+                        myIntent = new Intent(EmployeeApplications.this, EmployeeApplications.class);
                         myIntent.putExtra("employee_id", employee_id);
                         startActivity(myIntent);
                         drawerLayout.closeDrawers();
@@ -85,15 +85,15 @@ public class EmployeeSearch extends AppCompatActivity {
         listView = findViewById(R.id.jobListView);
         if(listView == null)
             Log.d("Listview null hai",null);
-        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), R.layout.job_list_item_layout);
+        EmployeeApplications.CustomAdapter customAdapter = new EmployeeApplications.CustomAdapter(getApplicationContext(), R.layout.job_list_item_layout);
         listView.setAdapter(customAdapter);
 
-        jobItems = new ArrayList<jobItem>();
+        jobItems = new ArrayList<EmployeeApplications.jobItem>();
 
         Call<JsonObject> call2 = RetrofitClient
                 .getInstance()
                 .getApi()
-                .findJobs(employee_id);
+                .fetchApplications(employee_id);
         call2.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -107,30 +107,30 @@ public class EmployeeSearch extends AppCompatActivity {
                     if(jobject.get("code").getAsInt() == 1){
                         JsonArray skillArray = jobject.get("jobs").getAsJsonArray();
                         for(int i=0;i<skillArray.size();i++){
-                            jobItems.add(new jobItem(
+                            jobItems.add(new EmployeeApplications.jobItem(
                                     skillArray.get(i).getAsJsonObject().get("job_id").getAsInt(),
                                     skillArray.get(i).getAsJsonObject().get("orgname").getAsString(),
                                     skillArray.get(i).getAsJsonObject().get("job_type").getAsString(),
                                     skillArray.get(i).getAsJsonObject().get("description").getAsString()
-                                    ));
+                            ));
                         }
 
                         for(int i=0; i<jobItems.size(); i++)
                             customAdapter.add(jobItems.get(i));
 
                     }else if(jobject.get("code").getAsInt() == 2){
-                        Toast.makeText(EmployeeSearch.this, "Invalid credentials", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EmployeeApplications.this, "Invalid credentials", Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(EmployeeSearch.this, "Server error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EmployeeApplications.this, "Server error", Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    Toast.makeText(EmployeeSearch.this, "Unknown error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EmployeeApplications.this, "Unknown error", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(EmployeeSearch.this, "No network connection", Toast.LENGTH_LONG);
+                Toast.makeText(EmployeeApplications.this, "No network connection", Toast.LENGTH_LONG);
                 t.printStackTrace();
             }
         });
@@ -141,11 +141,11 @@ public class EmployeeSearch extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                jobItem clickedjob= jobItems.get(position);
+                EmployeeApplications.jobItem clickedjob= jobItems.get(position);
                 System.out.println("not invoked");
                 String s = String.format("%d", clickedjob.get_id());
-                Toast.makeText(EmployeeSearch.this, s, Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(EmployeeSearch.this, EmployeeJobDisplay.class);
+                Toast.makeText(EmployeeApplications.this, s, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(EmployeeApplications.this, EmployeeApplicationDisplay.class);
                 intent.putExtra("job_id", clickedjob.get_id());
                 intent.putExtra("employee_id", employee_id);
                 startActivity(intent);
@@ -195,12 +195,12 @@ public class EmployeeSearch extends AppCompatActivity {
         }
     }
 
-    class CustomAdapter extends ArrayAdapter<jobItem> {
+    class CustomAdapter extends ArrayAdapter<EmployeeApplications.jobItem> {
         public CustomAdapter(Context context, int resouces){
             super(context, resouces);
         }
 
-        public CustomAdapter(Context context, int resource, List<jobItem> jobs){ super(context,resource,jobs);}
+        public CustomAdapter(Context context, int resource, List<EmployeeApplications.jobItem> jobs){ super(context,resource,jobs);}
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -212,7 +212,7 @@ public class EmployeeSearch extends AppCompatActivity {
                 row = vi.inflate(R.layout.job_list_item_layout, null);
             }
 
-            jobItem p = getItem(position);
+            EmployeeApplications.jobItem p = getItem(position);
 
             if (p != null) {
                 TextView tt1 = (TextView) row.findViewById(R.id.nameTextView);

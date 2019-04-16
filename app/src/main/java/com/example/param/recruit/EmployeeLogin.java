@@ -22,9 +22,6 @@ import retrofit2.Response;
 public class EmployeeLogin extends AppCompatActivity{
     EditText usernameEditText;
     EditText passwordEditText;
-    //String url = "http://10.145.217.12/recruit/backend/login_employee.php";
-//    String url = "https://dbfanatic.000webhostapp.com/backend/login_employee.php";
-    //public String url= "https://reqres.in/api/users/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +35,6 @@ public class EmployeeLogin extends AppCompatActivity{
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-//        dbHandlerApi d= new dbHandlerApi();
-//        HandleLoginEmployee handleLoginEmployee = new HandleLoginEmployee();
-//        v.post(handleLoginEmployee);
-//        d.login_employee(handleLoginEmployee, username, password);
-//        v.post(new HandleLoginEmployee());
         Call<JsonObject> call = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -59,7 +51,9 @@ public class EmployeeLogin extends AppCompatActivity{
                     JsonObject  jobject = jelement.getAsJsonObject();
                     if(jobject.get("code").getAsInt() == 1){
                         Toast.makeText(EmployeeLogin.this, "Valid login", Toast.LENGTH_LONG).show();
+                        int employee_id = jobject.get("employee_id").getAsInt();
                         Intent myIntent = new Intent(EmployeeLogin.this, EmployeeProfile.class);
+                        myIntent.putExtra("employee_id", employee_id);
                         startActivity(myIntent);
                     }else if(jobject.get("code").getAsInt() == 2){
                         Toast.makeText(EmployeeLogin.this, "Invalid credentials", Toast.LENGTH_LONG).show();

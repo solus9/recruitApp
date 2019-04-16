@@ -21,16 +21,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EmployeeProfile extends AppCompatActivity {
+public class EmployerProfile extends AppCompatActivity {
     Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    EditText nameEditText, usernameEditText, passwordEditText, emailEditText, contactEditText, dobEditText;
+    EditText nameEditText, usernameEditText, passwordEditText, emailEditText, contactEditText, dobEditText, orgEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_profile);
+        setContentView(R.layout.activity_employer_profile);
 
         nameEditText = findViewById(R.id.orgnameEditText);
         usernameEditText = findViewById(R.id.jobtypeEditText);
@@ -38,38 +38,42 @@ public class EmployeeProfile extends AppCompatActivity {
         emailEditText = findViewById(R.id.startdateEditText);
         contactEditText = findViewById(R.id.enddateEditText);
         dobEditText = findViewById(R.id.salaryEditText);
+        orgEditText = findViewById(R.id.orgEditText);
+        orgEditText.setFocusable(false);
+        orgEditText.setClickable(false);
 
-        int employeeId = getIntent().getIntExtra("employee_id", 1);
+        int employer_id = getIntent().getIntExtra("employer_id", 1);
         toolbar = findViewById(R.id.toolBarEmployee);
         setSupportActionBar(toolbar);
 
-        drawerLayout = findViewById(R.id.drawerEmployeeLayout);
+        drawerLayout = findViewById(R.id.drawerEmployerLayout);
         navigationView = findViewById(R.id.navigationView);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
-                    case R.id.nav_employee_profile:
+                    case R.id.nav_employer_profile:
                         item.setChecked(true);
-                        Intent myIntent = new Intent(EmployeeProfile.this, EmployeeProfile.class);
-                        myIntent.putExtra("employee_id", employeeId);
+                        Intent myIntent = new Intent(EmployerProfile.this, EmployerProfile.class);
+                        myIntent.putExtra("employer_id", employer_id);
                         startActivity(myIntent);
                         drawerLayout.closeDrawers();
                         return true;
-                    case R.id.nav_employee_search:
+                    case R.id.nav_employer_post_job:
                         item.setChecked(true);
-                        Toast.makeText(EmployeeProfile.this, "Profile ", Toast.LENGTH_LONG).show();
-                        myIntent = new Intent(EmployeeProfile.this, EmployeeSearch.class);
-                        myIntent.putExtra("employee_id", employeeId);
+                        Toast.makeText(EmployerProfile.this, "Profile ", Toast.LENGTH_LONG).show();
+                        myIntent = new Intent(EmployerProfile.this, EmployerPostJob.class);
+                        myIntent.putExtra("employer_id", employer_id);
                         startActivity(myIntent);
                         drawerLayout.closeDrawers();
                         return true;
-                    case R.id.nav_employee_application:
+                    case R.id.nav_employer_show_jobs:
+                        System.out.println(employer_id + "idhar");
                         item.setChecked(true);
-                        Toast.makeText(EmployeeProfile.this, "Profile ", Toast.LENGTH_LONG).show();
-                        myIntent = new Intent(EmployeeProfile.this, EmployeeApplications.class);
-                        myIntent.putExtra("employee_id", employeeId);
+                        Toast.makeText(EmployerProfile.this, "Profile ", Toast.LENGTH_LONG).show();
+                        myIntent = new Intent(EmployerProfile.this, EmployerApplications.class);
+                        myIntent.putExtra("employer_id", employer_id);
                         startActivity(myIntent);
                         drawerLayout.closeDrawers();
                         return true;
@@ -81,7 +85,7 @@ public class EmployeeProfile extends AppCompatActivity {
         Call<JsonObject> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .employeeDetails(employeeId);
+                .employerDetails(employer_id);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -99,22 +103,24 @@ public class EmployeeProfile extends AppCompatActivity {
                         emailEditText.setText(jobject.get("email").getAsString());
                         contactEditText.setText(jobject.get("contact").getAsString());
                         dobEditText.setText(jobject.get("dob").getAsString());
+                        orgEditText.setText(jobject.get("org").getAsString());
                     }else if(jobject.get("code").getAsInt() == 2){
-                        Toast.makeText(EmployeeProfile.this, "Invalid credentials", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EmployerProfile.this, "Invalid credentials", Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(EmployeeProfile.this, "Server error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EmployerProfile.this, "Server error", Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    Toast.makeText(EmployeeProfile.this, "Unknown error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EmployerProfile.this, "Unknown error", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(EmployeeProfile.this, "No network connection", Toast.LENGTH_LONG);
+                Toast.makeText(EmployerProfile.this, "No network connection", Toast.LENGTH_LONG);
                 t.printStackTrace();
             }
         });
+
     }
 
     public void updateClicked(View v){

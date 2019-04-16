@@ -31,49 +31,48 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EmployeeSearch extends AppCompatActivity {
+public class EmployerApplications extends AppCompatActivity {
     Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     ListView listView;
-    ArrayList<jobItem> jobItems;
-    private int employee_id;
+    ArrayList<EmployerApplications.applItem> applItems;
+    private int employer_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_search);
+        setContentView(R.layout.activity_employer_applications);
 
-        drawerLayout = findViewById(R.id.drawerEmployeeLayout);
+        drawerLayout = findViewById(R.id.drawerEmployerLayout);
         navigationView = findViewById(R.id.navigationView);
 
-        employee_id = getIntent().getIntExtra("employee_id",0);
-        System.out.println(String.format("%d", employee_id));
-
+        employer_id = getIntent().getIntExtra("employer_id",0);
+        System.out.println(employer_id);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
-                    case R.id.nav_employee_profile:
+                    case R.id.nav_employer_profile:
                         item.setChecked(true);
-                        Intent myIntent = new Intent(EmployeeSearch.this, EmployeeProfile.class);
-                        myIntent.putExtra("employee_id", employee_id);
+                        Intent myIntent = new Intent(EmployerApplications.this, EmployerProfile.class);
+                        myIntent.putExtra("employer_id", employer_id);
                         startActivity(myIntent);
                         drawerLayout.closeDrawers();
                         return true;
-                    case R.id.nav_employee_search:
+                    case R.id.nav_employer_post_job:
                         item.setChecked(true);
-                        Toast.makeText(EmployeeSearch.this, "Profile ", Toast.LENGTH_LONG).show();
-                        myIntent = new Intent(EmployeeSearch.this, EmployeeSearch.class);
-                        myIntent.putExtra("employee_id", employee_id);
+                        Toast.makeText(EmployerApplications.this, "Profile ", Toast.LENGTH_LONG).show();
+                        myIntent = new Intent(EmployerApplications.this, EmployerPostJob.class);
+                        myIntent.putExtra("employer_id", employer_id);
                         startActivity(myIntent);
                         drawerLayout.closeDrawers();
                         return true;
-                    case R.id.nav_employee_application:
+                    case R.id.nav_employer_show_jobs:
                         item.setChecked(true);
-                        Toast.makeText(EmployeeSearch.this, "Profile ", Toast.LENGTH_LONG).show();
-                        myIntent = new Intent(EmployeeSearch.this, EmployeeApplications.class);
-                        myIntent.putExtra("employee_id", employee_id);
+                        Toast.makeText(EmployerApplications.this, "Profile ", Toast.LENGTH_LONG).show();
+                        myIntent = new Intent(EmployerApplications.this, EmployerApplications.class);
+                        myIntent.putExtra("employer_id", employer_id);
                         startActivity(myIntent);
                         drawerLayout.closeDrawers();
                         return true;
@@ -85,15 +84,15 @@ public class EmployeeSearch extends AppCompatActivity {
         listView = findViewById(R.id.jobListView);
         if(listView == null)
             Log.d("Listview null hai",null);
-        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), R.layout.job_list_item_layout);
+        EmployerApplications.CustomAdapter customAdapter = new EmployerApplications.CustomAdapter(getApplicationContext(), R.layout.appl_list_item_layout);
         listView.setAdapter(customAdapter);
 
-        jobItems = new ArrayList<jobItem>();
+        applItems = new ArrayList<EmployerApplications.applItem>();
 
         Call<JsonObject> call2 = RetrofitClient
                 .getInstance()
                 .getApi()
-                .findJobs(employee_id);
+                .fetchApplicationsEmployer(employer_id);
         call2.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -105,102 +104,101 @@ public class EmployeeSearch extends AppCompatActivity {
                     JsonElement jelement = new JsonParser().parse(res);
                     JsonObject  jobject = jelement.getAsJsonObject();
                     if(jobject.get("code").getAsInt() == 1){
-                        JsonArray skillArray = jobject.get("jobs").getAsJsonArray();
+                        JsonArray skillArray = jobject.get("applications").getAsJsonArray();
                         for(int i=0;i<skillArray.size();i++){
-                            jobItems.add(new jobItem(
+                            applItems.add(new EmployerApplications.applItem(
+                                    skillArray.get(i).getAsJsonObject().get("employee_id").getAsInt(),
                                     skillArray.get(i).getAsJsonObject().get("job_id").getAsInt(),
-                                    skillArray.get(i).getAsJsonObject().get("orgname").getAsString(),
-                                    skillArray.get(i).getAsJsonObject().get("job_type").getAsString(),
-                                    skillArray.get(i).getAsJsonObject().get("description").getAsString()
-                                    ));
+                                    skillArray.get(i).getAsJsonObject().get("emplname").getAsString(),
+                                    skillArray.get(i).getAsJsonObject().get("sop").getAsString()
+                            ));
                         }
 
-                        for(int i=0; i<jobItems.size(); i++)
-                            customAdapter.add(jobItems.get(i));
+                        for(int i=0; i<applItems.size(); i++)
+                            customAdapter.add(applItems.get(i));
 
                     }else if(jobject.get("code").getAsInt() == 2){
-                        Toast.makeText(EmployeeSearch.this, "Invalid credentials", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EmployerApplications.this, "Invalid credentials", Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(EmployeeSearch.this, "Server error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EmployerApplications.this, "Server error", Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    Toast.makeText(EmployeeSearch.this, "Unknown error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EmployerApplications.this, "Unknown error", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(EmployeeSearch.this, "No network connection", Toast.LENGTH_LONG);
+                Toast.makeText(EmployerApplications.this, "No network connection", Toast.LENGTH_LONG);
                 t.printStackTrace();
             }
         });
 
-        //jobItems.add(new jobItem(1, "Appple", "Intern", "Nothing"));
-        //jobItems.add(new jobItem(2, "Microsoft", "SDE", "No"));
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                jobItem clickedjob= jobItems.get(position);
-                System.out.println("not invoked");
-                String s = String.format("%d", clickedjob.get_id());
-                Toast.makeText(EmployeeSearch.this, s, Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(EmployeeSearch.this, EmployeeJobDisplay.class);
-                intent.putExtra("job_id", clickedjob.get_id());
-                intent.putExtra("employee_id", employee_id);
+                EmployerApplications.applItem clickedjob= applItems.get(position);
+                Intent intent = new Intent(EmployerApplications.this, EmployerApplicationDisplay.class);
+                intent.putExtra("job_id", clickedjob.getJobid());
+                intent.putExtra("employee_id", clickedjob.getEmployee_id());
+                intent.putExtra(("employer_id"), employer_id);
                 startActivity(intent);
             }
         });
     }
 
-    class jobItem{
+    class applItem{
+        private int employee_id;
         private int jobid;
-        private String org;
-        private String typ;
-        private String des;
-        public jobItem(){}
-        public jobItem(int _jobid, String _org, String _typ, String _des){
-            this.org = _org;
-            this.typ = _typ;
-            this.des = _des;
-            this.jobid = _jobid;
+        private String name;
+        private String sop;
+
+        public applItem(){}
+        public applItem(int employee_id, int jobid, String name, String sop){
+            this.employee_id = employee_id;
+            this.jobid = jobid;
+            this.name = name;
+            this.sop = sop;
+        }
+        public int getEmployee_id() {
+            return employee_id;
         }
 
-        public String getTyp() {
-            return typ;
+        public void setEmployee_id(int employee_id) {
+            this.employee_id = employee_id;
         }
 
-        public void setTyp(String typ) {
-            this.typ = typ;
+        public int getJobid() {
+            return jobid;
         }
 
-        public String getDes() {
-            return des;
+        public void setJobid(int jobid) {
+            this.jobid = jobid;
         }
 
-        public void setDes(String des) {
-            this.des = des;
+        public String getName() {
+            return name;
         }
 
-        public String getOrg() {
-            return org;
+        public void setName(String name) {
+            this.name = name;
         }
 
-        public void setOrg(String org) {
-            this.org = org;
+        public String getSop() {
+            return sop;
         }
 
-        public int get_id(){
-            return this.jobid;
+        public void setSop(String sop) {
+            this.sop = sop;
         }
     }
 
-    class CustomAdapter extends ArrayAdapter<jobItem> {
+    class CustomAdapter extends ArrayAdapter<EmployerApplications.applItem> {
         public CustomAdapter(Context context, int resouces){
             super(context, resouces);
         }
 
-        public CustomAdapter(Context context, int resource, List<jobItem> jobs){ super(context,resource,jobs);}
+        public CustomAdapter(Context context, int resource, List<EmployerApplications.applItem> jobs){ super(context,resource,jobs);}
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -209,29 +207,23 @@ public class EmployeeSearch extends AppCompatActivity {
             if (row == null) {
                 LayoutInflater vi;
                 vi = LayoutInflater.from(getContext());
-                row = vi.inflate(R.layout.job_list_item_layout, null);
+                row = vi.inflate(R.layout.appl_list_item_layout, null);
             }
 
-            jobItem p = getItem(position);
+            EmployerApplications.applItem p = getItem(position);
 
             if (p != null) {
                 TextView tt1 = (TextView) row.findViewById(R.id.nameTextView);
-                TextView tt2 = (TextView) row.findViewById(R.id.jobTypeTextView);
-                TextView tt3 = (TextView) row.findViewById(R.id.sopTextView);
+                TextView tt2 = (TextView) row.findViewById(R.id.sopTextView);
 
                 if (tt1 != null) {
-                    tt1.setText(p.getOrg());
+                    tt1.setText(p.getName());
                 }
 
                 if (tt2 != null) {
-                    tt2.setText(p.getTyp());
-                }
-
-                if (tt3 != null) {
-                    tt3.setText(p.getDes());
+                    tt2.setText(p.getSop());
                 }
             }
-
             return row;
         }
     }

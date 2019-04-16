@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_employer_profile"
+            android:icon="@drawable/ic_employee_profile"
+            android:title="Profile"></item>
+        <item android:id="@+id/nav_employer_post_job"
+            android:icon="@drawable/ic_employee_search"
+            android:title="Post Job"></item>
+        <item android:id="@+id/nav_employer_show_jobs"
+            android:icon="@drawable/ic_employee_application"
+            android:title="My Posts"></item>
+    </group>
+</menu>

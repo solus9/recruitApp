@@ -14,7 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".EmployeeJobDisplay"></activity>
+        <activity android:name=".EmployerApplicationDisplay"></activity>
+        <activity android:name=".EmployerApplications" />
+        <activity android:name=".EmployerPostJob" />
+        <activity android:name=".EmployerRegister" />
+        <activity android:name=".EmployerProfile" />
+        <activity android:name=".EmployerLogin" />
+        <activity android:name=".EmployeeApplicationDisplay" />
+        <activity android:name=".EmployeeApplications" />
+        <activity android:name=".EmployeeJobDisplay" />
         <activity android:name=".EmployeeSearch" />
         <activity android:name=".EmployeeProfile" />
         <activity android:name=".SelectUser">

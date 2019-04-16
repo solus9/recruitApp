@@ -7,5 +7,8 @@
       <item android:id="@+id/nav_employee_search"
           android:icon="@drawable/ic_employee_search"
           android:title="Search Jobs"></item>
+      <item android:id="@+id/nav_employee_application"
+          android:icon="@drawable/ic_employee_application"
+          android:title="My Applications"></item>
   </group>
 </menu>

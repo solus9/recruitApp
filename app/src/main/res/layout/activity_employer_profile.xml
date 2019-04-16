@@ -3,15 +3,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerEmployeeLayout"
+    android:id="@+id/drawerEmployerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".EmployerProfile"
     android:fitsSystemWindows="true"
-    tools:context=".EmployeeProfile">
+    >
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/orgEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Organization"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="@+id/salaryEditText"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/salaryEditText"
+            app:layout_constraintTop_toBottomOf="@+id/orgTextView" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -180,9 +196,23 @@
             android:textSize="18sp"
             android:typeface="monospace"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orgEditText" />
+
+        <TextView
+            android:id="@+id/orgTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Organization"
+            app:layout_constraintStart_toStartOf="@+id/salaryTextView"
             app:layout_constraintTop_toBottomOf="@+id/salaryEditText" />
+
     </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationView"
@@ -190,8 +220,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/holo_blue_dark"
-        app:menu="@menu/drawyer_menu_employee">
-
+        app:menu="@menu/drawyer_menu_employer">
     </android.support.design.widget.NavigationView>
+
 
 </android.support.v4.widget.DrawerLayout>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerEmployeeLayout"
+    tools:context=".EmployerRegister"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".EmployeeProfile">
+    >
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <ImageView
             android:id="@+id/imageView"
@@ -164,8 +164,31 @@
             app:layout_constraintStart_toStartOf="@+id/enddateEditText"
             app:layout_constraintTop_toBottomOf="@+id/salaryTextView" />
 
+
+        <TextView
+            android:id="@+id/orgTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Organization"
+            app:layout_constraintStart_toStartOf="@+id/salaryTextView"
+            app:layout_constraintTop_toBottomOf="@+id/salaryEditText" />
+
+        <EditText
+            android:id="@+id/orgEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Organization"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="@+id/salaryEditText"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/salaryEditText"
+            app:layout_constraintTop_toBottomOf="@+id/orgTextView" />
+
         <Button
-            android:id="@+id/updateButton"
+            android:id="@+id/registerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -173,25 +196,16 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/button"
             android:fontFamily="sans-serif"
-            android:onClick="updateClicked"
+            android:onClick="registerClicked"
             android:padding="7dp"
-            android:text="Update"
+            android:text="Register"
             android:textColor="@android:color/background_light"
             android:textSize="18sp"
             android:typeface="monospace"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/salaryEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/orgEditText" />
+
     </android.support.constraint.ConstraintLayout>
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigationView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@android:color/holo_blue_dark"
-        app:menu="@menu/drawyer_menu_employee">
-
-    </android.support.design.widget.NavigationView>
-
-</android.support.v4.widget.DrawerLayout>
+</ScrollView>

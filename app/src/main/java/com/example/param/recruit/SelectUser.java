@@ -19,4 +19,11 @@ public class SelectUser extends Activity {
         Intent myIntent = new Intent(this, EmployeeLogin.class);
         startActivity(myIntent);
     }
+
+    public void needEmployeeClicked(View V){
+        Intent myIntent = new Intent(this, EmployerLogin.class);
+        startActivity(myIntent);
+    }
+
+
 }
